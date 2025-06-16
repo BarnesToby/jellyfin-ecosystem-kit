@@ -1,0 +1,1427 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Guides, documentation and examples for setting up a secure and fully automated media server using Traefik reverse proxy.">
+      
+      
+        <meta name="author" content="github.com/EdyTheCow">
+      
+      
+        <link rel="canonical" href="https://edythecow.github.io/docker-media-center/config/riven/">
+      
+      
+        <link rel="prev" href="../../installation/">
+      
+      
+        <link rel="next" href="../arr-stack/">
+      
+      
+      <link rel="icon" href="../../assets/favicon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>Riven - Docker Media Center</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../css/timeago.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#riven" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Docker Media Center" class="md-header__button md-logo" aria-label="Docker Media Center" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2m0 2a2.5 2.5 0 0 0-2.5 2.5A2.5 2.5 0 0 0 12 9a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 12 4M4.4 9.53A2.5 2.5 0 0 0 6 12.68c1.32.42 2.73-.29 3.15-1.61a2.5 2.5 0 0 0-1.6-3.15c-1.31-.42-2.73.29-3.15 1.61m15.21-.03c-.43-1.29-1.84-2-3.15-1.58a2.49 2.49 0 0 0-1.61 3.15 2.5 2.5 0 0 0 3.15 1.6c1.31-.42 2.03-1.84 1.61-3.17m-12.3 8.96c1.11.82 2.69.57 3.49-.55.81-1.12.56-2.68-.56-3.49a2.506 2.506 0 0 0-3.49.55c-.81 1.12-.56 2.68.56 3.49m9.39 0c1.12-.81 1.37-2.37.56-3.49a2.49 2.49 0 0 0-3.49-.55 2.497 2.497 0 0 0-.56 3.49c.79 1.12 2.38 1.36 3.49.55M12 10.5a1.5 1.5 0 0 0-1.5 1.5 1.5 1.5 0 0 0 1.5 1.5 1.5 1.5 0 0 0 1.5-1.5 1.5 1.5 0 0 0-1.5-1.5"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Docker Media Center
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Riven
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/EdyTheCow/docker-media-center" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    EdyTheCow/docker-media-center
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  
+  Getting started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../references/" class="md-tabs__link">
+          
+  
+  
+  References
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Docker Media Center" class="md-nav__button md-logo" aria-label="Docker Media Center" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2m0 2a2.5 2.5 0 0 0-2.5 2.5A2.5 2.5 0 0 0 12 9a2.5 2.5 0 0 0 2.5-2.5A2.5 2.5 0 0 0 12 4M4.4 9.53A2.5 2.5 0 0 0 6 12.68c1.32.42 2.73-.29 3.15-1.61a2.5 2.5 0 0 0-1.6-3.15c-1.31-.42-2.73.29-3.15 1.61m15.21-.03c-.43-1.29-1.84-2-3.15-1.58a2.49 2.49 0 0 0-1.61 3.15 2.5 2.5 0 0 0 3.15 1.6c1.31-.42 2.03-1.84 1.61-3.17m-12.3 8.96c1.11.82 2.69.57 3.49-.55.81-1.12.56-2.68-.56-3.49a2.506 2.506 0 0 0-3.49.55c-.81 1.12-.56 2.68.56 3.49m9.39 0c1.12-.81 1.37-2.37.56-3.49a2.49 2.49 0 0 0-3.49-.55 2.497 2.497 0 0 0-.56 3.49c.79 1.12 2.38 1.36 3.49.55M12 10.5a1.5 1.5 0 0 0-1.5 1.5 1.5 1.5 0 0 0 1.5 1.5 1.5 1.5 0 0 0 1.5-1.5 1.5 1.5 0 0 0-1.5-1.5"/></svg>
+
+    </a>
+    Docker Media Center
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/EdyTheCow/docker-media-center" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    EdyTheCow/docker-media-center
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Getting started
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            Getting started
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    About
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Installation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1_3" id="__nav_1_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Configurations
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            Configurations
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Riven
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Riven
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Requirements
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#preparations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Preparations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Preparations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#clone-repository" class="md-nav__link">
+    <span class="md-ellipsis">
+      Clone repository
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#riven-environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Riven environment variables
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#debrid-environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Debrid environment variables
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dns-records" class="md-nav__link">
+    <span class="md-ellipsis">
+      DNS records
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-required-directories" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create required directories
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#traefik" class="md-nav__link">
+    <span class="md-ellipsis">
+      Traefik
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Traefik">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setting-correct-permissions-for-acmejson" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setting correct permissions for acme.json
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#basic-auth" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic auth
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#start-traefik" class="md-nav__link">
+    <span class="md-ellipsis">
+      Start Traefik
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#zurg-rclone" class="md-nav__link">
+    <span class="md-ellipsis">
+      Zurg / Rclone
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Zurg / Rclone">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#start-zurg-and-rclone" class="md-nav__link">
+    <span class="md-ellipsis">
+      Start Zurg and Rclone
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jellyfin" class="md-nav__link">
+    <span class="md-ellipsis">
+      Jellyfin
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Jellyfin">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jellyseerr" class="md-nav__link">
+    <span class="md-ellipsis">
+      Jellyseerr
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Jellyseerr">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuration_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#riven_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Riven
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Riven">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuration_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arr-stack/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Arr Stack
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    References
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            References
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../references/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      Requirements
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#preparations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Preparations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Preparations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#clone-repository" class="md-nav__link">
+    <span class="md-ellipsis">
+      Clone repository
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#riven-environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Riven environment variables
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#debrid-environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Debrid environment variables
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dns-records" class="md-nav__link">
+    <span class="md-ellipsis">
+      DNS records
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-required-directories" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create required directories
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#traefik" class="md-nav__link">
+    <span class="md-ellipsis">
+      Traefik
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Traefik">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setting-correct-permissions-for-acmejson" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setting correct permissions for acme.json
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#basic-auth" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic auth
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#start-traefik" class="md-nav__link">
+    <span class="md-ellipsis">
+      Start Traefik
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#zurg-rclone" class="md-nav__link">
+    <span class="md-ellipsis">
+      Zurg / Rclone
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Zurg / Rclone">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#start-zurg-and-rclone" class="md-nav__link">
+    <span class="md-ellipsis">
+      Start Zurg and Rclone
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jellyfin" class="md-nav__link">
+    <span class="md-ellipsis">
+      Jellyfin
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Jellyfin">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jellyseerr" class="md-nav__link">
+    <span class="md-ellipsis">
+      Jellyseerr
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Jellyseerr">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuration_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#riven_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Riven
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Riven">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuration_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/EdyTheCow/docker-media-center/edit/main/docs/config/riven.md" title="Edit this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/EdyTheCow/docker-media-center/raw/main/docs/config/riven.md" title="View source of this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<h1 id="riven">Riven<a class="headerlink" href="#riven" title="Permanent link">&para;</a></h1>
+<p>Guide for setting fully automated media server using Riven, a replacement for Arr services.
+Setup is secured using Traefik reverse proxy by generating certificates and providing basic auth for any exposed web UIs.</p>
+<p><strong>Services:</strong> Jellyfin, Jellyseerr, Riven, Zurg, Rclone</p>
+<h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Domain</li>
+<li>Docker / Docker Compose</li>
+<li><a href="http://real-debrid.com/?id=13771120">Real-debrid.com</a> subscription (referral link <img alt="❤" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/2764.svg" title=":heart:" />)</li>
+</ul>
+<h2 id="preparations">Preparations<a class="headerlink" href="#preparations" title="Permanent link">&para;</a></h2>
+<p>Configuration of environment variables, domain records and basic auth before moving to installation and starting services.</p>
+<h3 id="clone-repository">Clone repository<a class="headerlink" href="#clone-repository" title="Permanent link">&para;</a></h3>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/EdyTheCow/docker-media-center.git
+</span></code></pre></div>
+<h3 id="riven-environment-variables"><strong>Riven</strong> environment variables<a class="headerlink" href="#riven-environment-variables" title="Permanent link">&para;</a></h3>
+<p>Navigate to <code>dmc-riven/riven/compose/.env</code> and edit variables below.</p>
+<p><strong>Required variables</strong></p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DOMAIN</td>
+<td>domain.com</td>
+<td>Domain used to access Jellyfin and other services</td>
+</tr>
+<tr>
+<td>DMC_RIVEN_DB_USER_PASS</td>
+<td>-</td>
+<td>Generate a password for Riven's database user</td>
+</tr>
+<tr>
+<td>DMC_RIVEN_REAL_DEBRID_API_KEY</td>
+<td>-</td>
+<td>Your real-debrid API key, can be found on their website</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Optional variables</strong>, these variables can be left as is or changed to your liking.</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>COMPOSE_PROJECT_NAME</td>
+<td>dmc-riven</td>
+<td>Prefix for all containers running in docker-compose file</td>
+</tr>
+<tr>
+<td>CONFIG_DIR</td>
+<td>../data</td>
+<td>Directory for storing configs of all services</td>
+</tr>
+<tr>
+<td>TIMEZONE</td>
+<td>Etc/UTC</td>
+<td>Timezone used by services, valid options can be found <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List">here </a></td>
+</tr>
+<tr>
+<td>PUID / PGID</td>
+<td>1000</td>
+<td>User and group ID, you can check yours with command: id</td>
+</tr>
+<tr>
+<td>SUB_DOMAIN_X</td>
+<td>-</td>
+<td>Subdomains for services, leave it or change it to your liking</td>
+</tr>
+</tbody>
+</table>
+<h3 id="debrid-environment-variables"><strong>Debrid</strong> environment variables<a class="headerlink" href="#debrid-environment-variables" title="Permanent link">&para;</a></h3>
+<p>Navigate to <code>dmc-riven/debrid/compose/.env</code>, this file includes mostly the same variables as above which are all optional.</p>
+<p>For service Zurg we'll have to manually set real-debrid API key direcly in <code>config.yml</code>. Navigate to <code>dmc-riven/debrid/data/zurg/config.yml</code> and paste your real-debrid API key in <code>token:</code>
+<div class="language-yaml highlight"><span class="filename">snippet of config.yml</span><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">zurg</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nt">token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">your-api-key-here</span>
+</span></code></pre></div></p>
+<h3 id="dns-records">DNS records<a class="headerlink" href="#dns-records" title="Permanent link">&para;</a></h3>
+<p>You are free to use whatever subdomains you want as long as it matches the subdomain specified in <code>dmc-riven/riven/compose/.env</code> file. The example below shows the default values.</p>
+<table>
+<thead>
+<tr>
+<th>Sub domain</th>
+<th style="text-align: center;">Record</th>
+<th>Target</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>dmc.domain.com</td>
+<td style="text-align: center;">A</td>
+<td>Your server's IP</td>
+</tr>
+<tr>
+<td>stream.domain.com</td>
+<td style="text-align: center;">CNAME</td>
+<td>dmc.domain.com</td>
+</tr>
+<tr>
+<td>add.domain.com</td>
+<td style="text-align: center;">CNAME</td>
+<td>dmc.domain.com</td>
+</tr>
+<tr>
+<td>riven.domain.com</td>
+<td style="text-align: center;">CNAME</td>
+<td>dmc.domain.com</td>
+</tr>
+</tbody>
+</table>
+<p>By setting DNS records this way, you can later on change server's IP by changing only one value instead of modifying every subdomains target value.</p>
+<h3 id="create-required-directories">Create required directories<a class="headerlink" href="#create-required-directories" title="Permanent link">&para;</a></h3>
+<h2 id="traefik">Traefik<a class="headerlink" href="#traefik" title="Permanent link">&para;</a></h2>
+<h3 id="setting-correct-permissions-for-acmejson">Setting correct permissions for <code>acme.json</code><a class="headerlink" href="#setting-correct-permissions-for-acmejson" title="Permanent link">&para;</a></h3>
+<p>Navigate to <code>_base/data/traefik/</code> and run
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>sudo<span class="w"> </span>chmod<span class="w"> </span><span class="m">600</span><span class="w"> </span>acme.json
+</span></code></pre></div>
+This is where Traefik will store all of generated certificates for our services.</p>
+<h3 id="basic-auth">Basic auth<a class="headerlink" href="#basic-auth" title="Permanent link">&para;</a></h3>
+<p>Navigate to <code>_base/data/traefik/.htpasswd</code> this is where we'll define basic auth user/pass for all services exposed to internet.
+You can generate user / pass pair by using command below. Replace <code>USER</code> and <code>PASSWORD</code> with your own.
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;USER:</span><span class="k">$(</span>openssl<span class="w"> </span>passwd<span class="w"> </span>-apr1<span class="w"> </span>PASSWORD<span class="k">)</span><span class="s2">\n&quot;</span>
+</span></code></pre></div>
+The command should output something like this
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>myUser:$apr1$qJicUGAO$ci9xH5pr1M02VZAFo.4mo.
+</span></code></pre></div>
+Copy paste the output to <code>_base/data/traefik/.htpasswd</code> file. You can add multiple users by adding more values per new line.</p>
+<h3 id="start-traefik">Start Traefik<a class="headerlink" href="#start-traefik" title="Permanent link">&para;</a></h3>
+<p>Navigate to <code>_base/compose</code> and run
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
+</span></code></pre></div></p>
+<h2 id="zurg-rclone">Zurg / Rclone<a class="headerlink" href="#zurg-rclone" title="Permanent link">&para;</a></h2>
+<p>First make sure you pasted the real-debrid API key in Zurg's config file at <code>dmc-riven/debrid/data/zurg/config.yml</code>
+By default real-debrid's drive will be mounted on your server at the path <code>/mnt/zurg</code>. It's recommended to leave it as is.</p>
+<h3 id="start-zurg-and-rclone">Start Zurg and Rclone<a class="headerlink" href="#start-zurg-and-rclone" title="Permanent link">&para;</a></h3>
+<p>It's important that Zurg and Rclone are started before other services. 
+Zurg / Rclone mounts a drive from real-debrid which is used by Jellyfin and Riven, if mount isn't found the rest of services will fail to function.</p>
+<p>Navigate to <code>dmc-riven/debrid/compose</code> and run
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
+</span></code></pre></div></p>
+<h2 id="jellyfin">Jellyfin<a class="headerlink" href="#jellyfin" title="Permanent link">&para;</a></h2>
+<p>Navigate to <code>dmc-riven/riven/compose</code> and run</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>jellyfin
+</span></code></pre></div>
+<h3 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h3>
+<p>Navigate to <code>https://stream.domain.com</code> in your browser and follow the installation instructions. When selecting library folder follow these paths:</p>
+<table>
+<thead>
+<tr>
+<th>Library name</th>
+<th style="text-align: center;">Content type</th>
+<th>Path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Movies</td>
+<td style="text-align: center;">Movies</td>
+<td>/mnt/media_symlinks/movies</td>
+</tr>
+<tr>
+<td>Shows</td>
+<td style="text-align: center;">Shows</td>
+<td>/mnt/media_symlinks/shows</td>
+</tr>
+<tr>
+<td>Anime Movies</td>
+<td style="text-align: center;">Movies</td>
+<td>/mnt/media_symlinks/anime_movies</td>
+</tr>
+<tr>
+<td>Anime Shows</td>
+<td style="text-align: center;">Shows</td>
+<td>/mnt/media_symlinks/anime_shows</td>
+</tr>
+</tbody>
+</table>
+<p>Library names can be whatever you want as long as paths are correct. <code>Anime Movies</code> and <code>Anime Shows</code> libraries are also optional.</p>
+<h2 id="jellyseerr">Jellyseerr<a class="headerlink" href="#jellyseerr" title="Permanent link">&para;</a></h2>
+<p>Navigate to <code>dmc-riven/debrid/compose</code> and run</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>jellyseerr
+</span></code></pre></div>
+<h3 id="configuration_1">Configuration<a class="headerlink" href="#configuration_1" title="Permanent link">&para;</a></h3>
+<p>Navigate to <code>https://add.domain.com</code> in your browser and follow the installation instructions.</p>
+<h2 id="riven_1">Riven<a class="headerlink" href="#riven_1" title="Permanent link">&para;</a></h2>
+<p>Navigate to <code>dmc-riven/debrid/compose</code> and run</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d<span class="w"> </span>riven<span class="w"> </span>riven-db<span class="w"> </span>riven-frontend
+</span></code></pre></div>
+<p>Riven may take a couple of minutes to fully start. Navigate to <code>https://riven.domain.com</code> in your browser. 
+This time you will be prompted by basic auth by Traefik. Login with the credentials you chosen earlier in <a href="#basic-auth">basic auth</a> section.</p>
+<h3 id="configuration_2">Configuration<a class="headerlink" href="#configuration_2" title="Permanent link">&para;</a></h3>
+
+
+
+
+
+
+
+  
+    
+  
+  
+    
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="April 14, 2025 23:09:58 UTC"><span class="timeago" datetime="2025-04-14T23:09:58+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="April 14, 2025 23:09:58 UTC">2025-04-14</span>
+  </span>
+
+    
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Created">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="April 13, 2025 21:08:50 UTC"><span class="timeago" datetime="2025-04-13T21:08:50+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="April 13, 2025 21:08:50 UTC">2025-04-13</span>
+  </span>
+
+    
+    
+    
+      
+  <span class="md-source-file__fact">
+    
+      
+  <span class="md-icon" title="Contributors">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33s1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2"/></svg>
+  </span>
+  <span>GitHub</span>
+
+    
+    <nav>
+      
+        <a href="https://github.com/EdyTheCow" class="md-author" title="@EdyTheCow">
+          
+          <img src="https://avatars.githubusercontent.com/u/5132667?v=4&size=72" alt="EdyTheCow">
+        </a>
+      
+      
+      
+    </nav>
+  </span>
+
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../../installation/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Installation">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Installation
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../arr-stack/" class="md-footer__link md-footer__link--next" aria-label="Next: Arr Stack">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Arr Stack
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["content.action.edit", "content.action.view", "navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.footer", "navigation.sections", "search.suggest", "content.tooltips", "content.code.copy"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+        <script src="../../js/timeago.min.js"></script>
+      
+        <script src="../../js/timeago_mkdocs_material.js"></script>
+      
+    
+  </body>
+</html>
