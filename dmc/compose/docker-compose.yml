@@ -8,29 +8,6 @@ networks:
 
 services:
 
-  jellyfin:
-    image: lscr.io/linuxserver/jellyfin:latest
-    restart: unless-stopped
-    #security_opt: # Required for Docker versions below 20.10.10, update Docker for long term solution. Source: https://docs.linuxserver.io/faq#jammy
-    #  - seccomp=unconfined
-    networks:
-      - global
-      - local
-    environment:
-      - PUID=${ENV_PUID}
-      - PGID=${ENV_PGID}
-      - TZ=${TIMEZONE}
-    volumes:
-      - ${SERVICES_DIR}/jellyfin:/config
-      - ${MEDIA_DIR}/media:/data/media
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.dmc-jellyfin.rule=Host(`${SUB_DOMAIN_JELLYFIN}.${DOMAIN}`)"
-      - "traefik.http.routers.dmc-jellyfin.tls=true"
-      - "traefik.http.services.dmc-jellyfin.loadbalancer.server.port=8096"
-      - "traefik.http.routers.dmc-jellyfin.tls.certresolver=letsencrypt"
-      - "traefik.docker.network=global"
-
   transmission:
     image: lscr.io/linuxserver/transmission:latest
     restart: unless-stopped

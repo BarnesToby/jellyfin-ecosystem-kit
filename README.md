@@ -191,7 +191,3 @@ Below are the important settings you should edit, the instructions for sonarr ar
 - Add Plex as an option
 - Add VPN option for Transmission torrent client
 - Explore the hype surrounding https://real-debrid.com
-=======
-# jellyfin-ecosystem-kit
-"A self-hosted media center stack using Docker Compose, featuring the full Jellyfin ecosystem—without Jellyfin itself."
-
