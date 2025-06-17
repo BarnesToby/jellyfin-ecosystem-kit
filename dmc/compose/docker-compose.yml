@@ -22,7 +22,7 @@ services:
       - TZ=${TIMEZONE}
     volumes:
       - ${SERVICES_DIR}/jellyfin:/config
-      - ${DATA_DIR}/media:/data/media
+      - ${MEDIA_DIR}/media:/data/media
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.dmc-jellyfin.rule=Host(`${SUB_DOMAIN_JELLYFIN}.${DOMAIN}`)"
@@ -43,7 +43,7 @@ services:
       - TZ={TIMEZONE}
     volumes:
       - ${SERVICES_DIR}/transmission:/config
-      - ${DATA_DIR}/downloads:/downloads
+      - ${DOWNLOAD_DIR}/downloads:/downloads
     ports:
       - 51413:51413 # Torrent port TCP
       - 51413:51413/udp # Torrent port UDP
@@ -70,7 +70,8 @@ services:
       - TZ={TIMEZONE}
     volumes:
       - ${SERVICES_DIR}/radarr:/config
-      - ${DATA_DIR}:/data
+      - ${MEDIA_DIR}:/movies #optional
+      - ${DOWNLOAD_DIR}:/downloads #optional
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.dmc-radarr.rule=Host(`${SUB_DOMAIN_RADARR}.${DOMAIN}`)"
@@ -96,7 +97,8 @@ services:
       - TZ={TIMEZONE}
     volumes:
       - ${SERVICES_DIR}/sonarr:/config
-      - ${DATA_DIR}:/data
+      - ${MEDIA_DIR}:/tv #optional
+      - ${DOWNLOAD_DIR}:/downloads #optional
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.dmc-sonarr.rule=Host(`${SUB_DOMAIN_SONARR}.${DOMAIN}`)"

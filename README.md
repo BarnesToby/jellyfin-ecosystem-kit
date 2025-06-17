@@ -42,7 +42,7 @@ Navigate to `dmc/compose/.env/` and edit these variables.
 |---|---|---|
 | COMPOSE_PROJECT_NAME | dmc | The prefix for all of containers when started from the compose file |
 | DOMAIN | domain.com | The domain that's going to be used to access Jellyfin and rest of the other services |
-| DATA_DIR | ../data | The location where all of media and downloads are going to be stored |
+| MEDIA_DIR | ../data | The location where all of media and downloads are going to be stored |
 | SERVICES_DIR | ../data | The location where all of services configs are stored |
 | TIMEZONE | Europe/Oslo | Your timezone, you can find all of the valid timezones here: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List |
 | ENV_PUID | 1000 | Your user ID, used for file permissions. You can find it by running command: id |
