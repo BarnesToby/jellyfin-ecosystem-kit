@@ -21,5 +21,6 @@ services:
       - ${NETWORK_CONF_DIR}/traefik/traefik.toml:/etc/traefik/traefik.toml
       - ${NETWORK_CONF_DIR}/traefik/acme.json:/acme.json
       - ${NETWORK_CONF_DIR}/traefik/.htpasswd:/.htpasswd
+      - ${NETWORK_CONF_DIR}/traefik:/data/traefik
     labels:
       - "traefik.http.middlewares.dmc-auth.basicauth.usersfile=/.htpasswd"

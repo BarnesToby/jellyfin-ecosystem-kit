@@ -1,0 +1,19 @@
+http:
+  routers:
+    dmc-jellyfin:
+      rule: "Host(`${SUB_DOMAIN_JELLYFIN}.${DOMAIN}`)"
+      entryPoints:
+        - web
+        - websecure
+      service: dmc-jellyfin
+      tls:
+        certResolver: letsencrypt
+      # If you want to add basic auth, include the next line:
+      # middlewares:
+      #   - dmc-auth
+
+  services:
+    dmc-jellyfin:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.1.96:8096"

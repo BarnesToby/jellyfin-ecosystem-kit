@@ -11,6 +11,10 @@
 
 [providers.docker]
 
+[providers.file]
+  directory = "/data/traefik"
+  watch = true
+
 [certificatesResolvers.cloudflare.acme]
   email = "admin@domain.com"
   [certificatesResolvers.cloudflare.acme.dnsChallenge]
