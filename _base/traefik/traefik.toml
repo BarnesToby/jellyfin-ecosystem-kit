@@ -1,3 +1,6 @@
+[api]
+  dashboard = true
+
 [global]
   checkNewVersion = false
   sendAnonymousUsage = false
@@ -12,7 +15,7 @@
 [providers.docker]
 
 [providers.file]
-  directory = "/data/traefik"
+  directory = "/etc/traefik"
   watch = true
 
 [certificatesResolvers.cloudflare.acme]

@@ -18,9 +18,11 @@ services:
       - "443:443"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ${NETWORK_CONF_DIR}/traefik/traefik.toml:/etc/traefik/traefik.toml
-      - ${NETWORK_CONF_DIR}/traefik/acme.json:/acme.json
-      - ${NETWORK_CONF_DIR}/traefik/.htpasswd:/.htpasswd
-      - ${NETWORK_CONF_DIR}/traefik:/data/traefik
+      # - ${NETWORK_CONF_DIR}:/etc/traefik
+      - ${NETWORK_CONF_DIR}/traefik.toml:/etc/traefik/traefik.toml
+      - ${NETWORK_CONF_DIR}/jellyfin.yml:/etc/traefik/jellyfin.yml
+      - ${NETWORK_CONF_DIR}/acme.json:/acme.json
+      - ${NETWORK_CONF_DIR}/.htpasswd:/.htpasswd
+      - ${DATA_DIR}/traefik:/data/traefik
     labels:
       - "traefik.http.middlewares.dmc-auth.basicauth.usersfile=/.htpasswd"

@@ -172,3 +172,10 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# add data specific files
+dmc/services/jellyseerr/*
+dmc/services/prowlarr/*
+dmc/services/radarr/*
+dmc/services/sonarr/*
+dmc/services/transmission/*

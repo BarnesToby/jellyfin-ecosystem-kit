@@ -20,10 +20,11 @@ services:
       - TZ={TIMEZONE}
     volumes:
       - ${SERVICES_DIR}/transmission:/config
-      - ${DOWNLOAD_DIR}/downloads:/downloads
+      - ${DOWNLOAD_DIR}:/downloads
     ports:
       - 51413:51413 # Torrent port TCP
       - 51413:51413/udp # Torrent port UDP
+      - 9091:9091
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.dmc-transmission.rule=Host(`${SUB_DOMAIN_TRANSMISSION}.${DOMAIN}`)"
@@ -47,8 +48,10 @@ services:
       - TZ={TIMEZONE}
     volumes:
       - ${SERVICES_DIR}/radarr:/config
-      - ${MEDIA_DIR}:/movies #optional
+      - ${MOVIES_DIR}:/movies #optional
       - ${DOWNLOAD_DIR}:/downloads #optional
+    ports:
+      - 7878:7878
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.dmc-radarr.rule=Host(`${SUB_DOMAIN_RADARR}.${DOMAIN}`)"
@@ -74,8 +77,10 @@ services:
       - TZ={TIMEZONE}
     volumes:
       - ${SERVICES_DIR}/sonarr:/config
-      - ${MEDIA_DIR}:/tv #optional
+      - ${TV_SHOWS_DIR}:/tv #optional
       - ${DOWNLOAD_DIR}:/downloads #optional
+    ports:
+      - 8989:8989
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.dmc-sonarr.rule=Host(`${SUB_DOMAIN_SONARR}.${DOMAIN}`)"
@@ -99,6 +104,8 @@ services:
       - TZ={TIMEZONE}
     volumes:
       - ${SERVICES_DIR}/prowlarr:/config
+    ports:
+      - 9696:9696
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.dmc-prowlarr.rule=Host(`${SUB_DOMAIN_PROWLARR}.${DOMAIN}`)"
@@ -121,6 +128,8 @@ services:
       - TZ={TIMEZONE}
     volumes:
       - ${SERVICES_DIR}/jellyseerr:/app/config
+    ports:
+      - 5055:5055
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.dmc-jellyseerr.rule=Host(`${SUB_DOMAIN_JELLYSEERR}.${DOMAIN}`)"
