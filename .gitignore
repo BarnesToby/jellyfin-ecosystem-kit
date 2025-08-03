@@ -179,3 +179,4 @@ dmc/services/prowlarr/*
 dmc/services/radarr/*
 dmc/services/sonarr/*
 dmc/services/transmission/*
+_base/traefik/acme.json
