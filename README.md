@@ -14,7 +14,7 @@ This project consists of two main components:
 | Service | Purpose | Default Port | Web Interface |
 |---------|---------|--------------|---------------|
 | **Traefik** | Reverse proxy & SSL termination | 80/443 | `https://your-domain/dashboard/` |
-| **Jellyfin** | Media server (external setup) | 8096 | `https://higitv.ch` |
+| **Jellyfin** | Media server (external setup) | 8096 | `https://your_domain.chh` |
 | **Transmission** | BitTorrent client | 9091 | `https://transmission.your-domain` |
 | **Radarr** | Movie management | 7878 | `https://radarr.your-domain` |
 | **Sonarr** | TV show management | 8989 | `https://sonarr.your-domain` |
@@ -84,7 +84,7 @@ Jellyfin runs separately from this ecosystem. Install and configure it:
    http:
      routers:
        dmc-jellyfin:
-         rule: "Host(`your-domain.com`)"  # Change from higitv.ch
+         rule: "Host(`your-domain.com`)"  # Change from your_domain.ch
          entryPoints:
            - web
            - websecure

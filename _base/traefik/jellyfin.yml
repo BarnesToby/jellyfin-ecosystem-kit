@@ -2,7 +2,7 @@ http:
   routers:
     dmc-jellyfin:
       # rule: "Host(`${SUB_DOMAIN_JELLYFIN}.${DOMAIN}`)"
-      rule: "Host(`higitv.ch`)"
+      rule: "Host(`your_domain.ch`)"
       entryPoints:
         - web
         - websecure

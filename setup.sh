@@ -74,9 +74,9 @@ fi
 
 # Check if Jellyfin config needs updating
 JELLYFIN_CONFIG="_base/traefik/jellyfin.yml"
-if grep -q "higitv.ch" "$JELLYFIN_CONFIG" || grep -q "192.168.1.96" "$JELLYFIN_CONFIG"; then
+if grep -q "your_domain.ch" "$JELLYFIN_CONFIG" || grep -q "192.168.1.96" "$JELLYFIN_CONFIG"; then
     echo "⚠️  Warning: Please update the Jellyfin configuration in $JELLYFIN_CONFIG"
-    echo "   - Update the domain from 'higitv.ch' to your domain"
+    echo "   - Update the domain from 'your_domain.ch' to your domain"
     echo "   - Update the server IP from '192.168.1.96' to your Jellyfin server IP"
 fi
 
