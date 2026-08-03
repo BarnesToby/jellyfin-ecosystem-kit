@@ -159,3 +159,48 @@ services:
       - "traefik.http.routers.dmc-wizarr.tls.certresolver=letsencrypt"
       - "traefik.http.services.dmc-wizarr.loadbalancer.server.port=5690"
       - "traefik.docker.network=global"
+
+  jellystat-db:
+    image: postgres:15.2
+    restart: unless-stopped
+    shm_size: 1gb
+    networks:
+      - local
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=${JELLYSTAT_POSTGRES_PASSWORD}
+    volumes:
+      - ${SERVICES_DIR}/jellystat/postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready --dbname=postgres --username=postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  jellystat:
+    image: cyfershepard/jellystat:latest
+    restart: unless-stopped
+    networks:
+      - global
+      - local
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=${JELLYSTAT_POSTGRES_PASSWORD}
+      - POSTGRES_IP=jellystat-db
+      - POSTGRES_PORT=5432
+      - JWT_SECRET=${JELLYSTAT_JWT_SECRET}
+      - TZ=${TIMEZONE}
+    volumes:
+      - ${SERVICES_DIR}/jellystat/backup:/app/backend/backup-data
+    ports:
+      - 3000:3000
+    depends_on:
+      jellystat-db:
+        condition: service_healthy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dmc-jellystat.rule=Host(`${SUB_DOMAIN_JELLYSTAT}.${DOMAIN}`)"
+      - "traefik.http.routers.dmc-jellystat.tls=true"
+      - "traefik.http.routers.dmc-jellystat.tls.certresolver=letsencrypt"
+      - "traefik.http.services.dmc-jellystat.loadbalancer.server.port=3000"
+      - "traefik.docker.network=global"
