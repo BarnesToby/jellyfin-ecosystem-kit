@@ -7,7 +7,6 @@ networks:
     external: false
 
 services:
-
   transmission:
     image: lscr.io/linuxserver/transmission:latest
     restart: unless-stopped
@@ -138,3 +137,25 @@ services:
       - "traefik.http.routers.dmc-jellyseerr.tls.certresolver=letsencrypt"
       - "traefik.docker.network=global"
 
+  wizarr:
+    image: ghcr.io/wizarrrr/wizarr:latest
+    restart: unless-stopped
+    networks:
+      - global
+      - local
+    environment:
+      - PUID=${ENV_PUID}
+      - PGID=${ENV_PGID}
+      - TZ=${TIMEZONE}
+      - DISABLE_BUILTIN_AUTH=false
+    volumes:
+      - ${SERVICES_DIR}/wizarr:/data
+    ports:
+      - 5690:5690
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dmc-wizarr.rule=Host(`${SUB_DOMAIN_WIZARR}.${DOMAIN}`)"
+      - "traefik.http.routers.dmc-wizarr.tls=true"
+      - "traefik.http.routers.dmc-wizarr.tls.certresolver=letsencrypt"
+      - "traefik.http.services.dmc-wizarr.loadbalancer.server.port=5690"
+      - "traefik.docker.network=global"
