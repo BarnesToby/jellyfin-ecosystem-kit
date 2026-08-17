@@ -118,7 +118,8 @@ services:
       - "traefik.http.routers.dmc-prowlarr.middlewares=dmc-auth"
 
   jellyseerr:
-    image: fallenbagel/jellyseerr:latest
+    image: ghcr.io/seerr-team/seerr:latest
+    init: true
     restart: unless-stopped
     networks:
       - global
