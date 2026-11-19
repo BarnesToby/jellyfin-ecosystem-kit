@@ -5,6 +5,9 @@
 
 set -e
 
+REPO_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+cd "$REPO_DIR"
+
 echo "🚀 Jellyfin Ecosystem Kit Setup"
 echo "================================"
 echo
@@ -21,6 +24,16 @@ if ! docker compose version &> /dev/null; then
 fi
 
 echo "✅ Docker and Docker Compose are installed"
+
+# Check that local Traefik credentials exist
+HTPASSWD_FILE="infrastructure/traefik/.htpasswd"
+if [[ ! -f "$HTPASSWD_FILE" ]]; then
+    echo "❌ Traefik credentials file not found at $HTPASSWD_FILE"
+    echo "Create it locally before starting services:"
+    echo "  sudo apt-get install apache2-utils"
+    echo "  htpasswd -cB $HTPASSWD_FILE admin"
+    exit 1
+fi
 
 # Create global network if it doesn't exist
 if ! docker network ls | grep -q "global"; then
@@ -91,7 +104,6 @@ echo "2. Start media services:"
 echo "   cd ../../media-services/compose && docker compose up -d"
 echo
 echo "3. Access your services at:"
-echo "   - Traefik Dashboard: https://$DOMAIN/dashboard/"
 echo "   - Transmission: https://transmission.$DOMAIN"
 echo "   - Radarr: https://radarr.$DOMAIN"
 echo "   - Sonarr: https://sonarr.$DOMAIN"
