@@ -35,13 +35,18 @@ The `services/` directories are created locally by setup and hold persistent app
 ## Setup
 
 1. Install Docker with the Compose plugin. Point your DNS records at the server and make ports 80 and 443 reachable.
-2. Edit `media-services/compose/.env`. Set `DOMAIN`, media/download paths, `SERVICE_DATA_DIR` if needed, your `TIMEZONE` and user/group IDs, and replace both Jellystat placeholder secrets with strong random values. Its default media paths are `/mnt/media/...`; `SERVICE_DATA_DIR=../services` is relative to `media-services/compose/`.
+2. Edit `media-services/compose/.env`. Set `DOMAIN`, `MOVIES_DIR`, `TV_SHOWS_DIR`, and `DOWNLOAD_DIR` to the host paths you want to use. The defaults are `/mnt/media/movies`, `/mnt/media/tvshows`, and `/mnt/downloads`. Also set `SERVICE_DATA_DIR` if needed, your `TIMEZONE` and user/group IDs, and replace both Jellystat placeholder secrets with strong random values. `SERVICE_DATA_DIR=../services` is relative to `media-services/compose/`.
 3. Edit `infrastructure/compose/.env` if you want to change the default Traefik config/data paths. Update `infrastructure/traefik/traefik.toml` with your ACME email and `infrastructure/traefik/jellyfin.yml` with the Jellyfin hostname and server IP.
 4. Create the external Docker network and local data directories:
 
    ```sh
    docker network create global
-   mkdir -p /mnt/media/movies /mnt/media/tvshows /mnt/downloads
+   (
+     set -a
+     . media-services/compose/.env
+     set +a
+     mkdir -p "$MOVIES_DIR" "$TV_SHOWS_DIR" "$DOWNLOAD_DIR"
+   )
    mkdir -p media-services/services/{transmission,radarr,sonarr,prowlarr,jellyseerr,wizarr,jellystat}
    ```
 
