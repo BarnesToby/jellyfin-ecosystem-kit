@@ -176,3 +176,4 @@ cython_debug/
 # add data specific files
 media-services/services/*/
 infrastructure/traefik/acme.json
+infrastructure/traefik/.htpasswd

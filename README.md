@@ -36,7 +36,7 @@ The `services/` directories are created locally by setup and hold persistent app
 
 1. Install Docker with the Compose plugin. Point your DNS records at the server and make ports 80 and 443 reachable.
 2. Edit `media-services/compose/.env`. Set `DOMAIN`, `MOVIES_DIR`, `TV_SHOWS_DIR`, and `DOWNLOAD_DIR` to the host paths you want to use. The defaults are `/mnt/media/movies`, `/mnt/media/tvshows`, and `/mnt/downloads`. Also set `SERVICE_DATA_DIR` if needed, your `TIMEZONE` and user/group IDs, and replace both Jellystat placeholder secrets with strong random values. `SERVICE_DATA_DIR=../services` is relative to `media-services/compose/`.
-3. Edit `infrastructure/compose/.env` if you want to change the default Traefik config/data paths. Update `infrastructure/traefik/traefik.toml` with your ACME email and `infrastructure/traefik/jellyfin.yml` with the Jellyfin hostname and server IP.
+3. Edit `infrastructure/compose/.env` if you want to change the default Traefik config/data paths. Update `infrastructure/traefik/traefik.toml` with your ACME email and `infrastructure/traefik/jellyfin.yml` with the Jellyfin hostname and server IP. Create the local `.htpasswd` file as described below before starting Traefik.
 4. Create the external Docker network and local data directories:
 
    ```sh
@@ -60,6 +60,23 @@ The `services/` directories are created locally by setup and hold persistent app
 
    Alternatively, `./setup.sh` checks prerequisites, creates the network and directories, and offers to start both Compose projects.
 6. Finish each service's initial setup in its web UI. Connect Prowlarr to Radarr and Sonarr, configure Transmission as their download client, and connect Jellyseerr and Jellystat to your Jellyfin server.
+
+## Traefik Basic Authentication
+
+Traefik uses `infrastructure/traefik/.htpasswd` for Basic Authentication on Transmission, Radarr, Sonarr, and Prowlarr. The credentials file is local-only and ignored by Git. Generate it before starting the services:
+
+```sh
+sudo apt-get install apache2-utils
+htpasswd -cB infrastructure/traefik/.htpasswd admin
+```
+
+Enter a strong password when prompted. To add another user later, omit `-c` so the existing file is preserved:
+
+```sh
+htpasswd -B infrastructure/traefik/.htpasswd another-user
+```
+
+Do not commit the generated `.htpasswd` file. If a credential hash was previously shared or committed, replace it with a new password.
 
 ## Environment variables
 

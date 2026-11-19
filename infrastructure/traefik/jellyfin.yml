@@ -9,9 +9,9 @@ http:
       service: dmc-jellyfin
       tls:
         certResolver: letsencrypt
-      # If you want to add basic auth, include the next line:
+      # To enable the Docker-provider Basic Auth middleware:
       # middlewares:
-      #   - dmc-auth
+      #   - dmc-auth@docker
 
   services:
     dmc-jellyfin:
