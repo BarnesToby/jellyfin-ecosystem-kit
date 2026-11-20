@@ -18,7 +18,7 @@ services:
       - PGID=${ENV_PGID}
       - TZ={TIMEZONE}
     volumes:
-      - ${SERVICES_DIR}/transmission:/config
+      - ${SERVICE_DATA_DIR}/transmission:/config
       - ${DOWNLOAD_DIR}:/downloads
     ports:
       - 51413:51413 # Torrent port TCP
@@ -46,7 +46,7 @@ services:
       - PGID=${ENV_PGID}
       - TZ={TIMEZONE}
     volumes:
-      - ${SERVICES_DIR}/radarr:/config
+      - ${SERVICE_DATA_DIR}/radarr:/config
       - ${MOVIES_DIR}:/movies #optional
       - ${DOWNLOAD_DIR}:/downloads #optional
     ports:
@@ -75,7 +75,7 @@ services:
       - PGID=${ENV_PGID}
       - TZ={TIMEZONE}
     volumes:
-      - ${SERVICES_DIR}/sonarr:/config
+      - ${SERVICE_DATA_DIR}/sonarr:/config
       - ${TV_SHOWS_DIR}:/tv #optional
       - ${DOWNLOAD_DIR}:/downloads #optional
     ports:
@@ -102,7 +102,7 @@ services:
       - PGID=${ENV_PGID}
       - TZ={TIMEZONE}
     volumes:
-      - ${SERVICES_DIR}/prowlarr:/config
+      - ${SERVICE_DATA_DIR}/prowlarr:/config
     ports:
       - 9696:9696
     labels:
@@ -127,7 +127,7 @@ services:
       - LOG_LEVEL=debug
       - TZ={TIMEZONE}
     volumes:
-      - ${SERVICES_DIR}/jellyseerr:/app/config
+      - ${SERVICE_DATA_DIR}/jellyseerr:/app/config
     ports:
       - 5055:5055
     labels:
@@ -150,7 +150,7 @@ services:
       - TZ=${TIMEZONE}
       - DISABLE_BUILTIN_AUTH=false
     volumes:
-      - ${SERVICES_DIR}/wizarr:/data
+      - ${SERVICE_DATA_DIR}/wizarr:/data
     ports:
       - 5690:5690
     labels:
@@ -171,7 +171,7 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=${JELLYSTAT_POSTGRES_PASSWORD}
     volumes:
-      - ${SERVICES_DIR}/jellystat/postgres:/var/lib/postgresql/data
+      - ${SERVICE_DATA_DIR}/jellystat/postgres:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready --dbname=postgres --username=postgres"]
       interval: 10s
@@ -192,7 +192,7 @@ services:
       - JWT_SECRET=${JELLYSTAT_JWT_SECRET}
       - TZ=${TIMEZONE}
     volumes:
-      - ${SERVICES_DIR}/jellystat/backup:/app/backend/backup-data
+      - ${SERVICE_DATA_DIR}/jellystat/backup:/app/backend/backup-data
     ports:
       - 3000:3000
     depends_on:

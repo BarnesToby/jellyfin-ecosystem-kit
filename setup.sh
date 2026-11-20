@@ -5,6 +5,9 @@
 
 set -e
 
+REPO_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+cd "$REPO_DIR"
+
 echo "🚀 Jellyfin Ecosystem Kit Setup"
 echo "================================"
 echo
@@ -15,12 +18,22 @@ if ! command -v docker &> /dev/null; then
     exit 1
 fi
 
-if ! command -v docker-compose &> /dev/null; then
-    echo "❌ Docker Compose is not installed. Please install Docker Compose first."
+if ! docker compose version &> /dev/null; then
+    echo "❌ Docker Compose plugin is not installed. Please install Docker Compose first."
     exit 1
 fi
 
 echo "✅ Docker and Docker Compose are installed"
+
+# Check that local Traefik credentials exist
+HTPASSWD_FILE="infrastructure/traefik/.htpasswd"
+if [[ ! -f "$HTPASSWD_FILE" ]]; then
+    echo "❌ Traefik credentials file not found at $HTPASSWD_FILE"
+    echo "Create it locally before starting services:"
+    echo "  sudo apt-get install apache2-utils"
+    echo "  htpasswd -cB $HTPASSWD_FILE admin"
+    exit 1
+fi
 
 # Create global network if it doesn't exist
 if ! docker network ls | grep -q "global"; then
@@ -32,7 +45,7 @@ else
 fi
 
 # Check if .env file exists
-ENV_FILE="dmc/compose/.env"
+ENV_FILE="media-services/compose/.env"
 if [[ ! -f "$ENV_FILE" ]]; then
     echo "❌ Environment file not found at $ENV_FILE"
     echo "Please configure your environment variables first."
@@ -54,30 +67,30 @@ sudo mkdir -p "$TV_SHOWS_DIR" || { echo "Failed to create TV shows directory. Pl
 sudo mkdir -p "$DOWNLOAD_DIR" || { echo "Failed to create download directory. Please check permissions."; exit 1; }
 
 # Create service config directories
-mkdir -p dmc/services/{transmission,radarr,sonarr,prowlarr,jellyseerr}
+mkdir -p media-services/services/{transmission,radarr,sonarr,prowlarr,jellyseerr,wizarr,jellystat}
 
 echo "✅ Directories created"
 
 # Set proper permissions
 echo "🔑 Setting permissions..."
 sudo chown -R "$ENV_PUID:$ENV_PGID" "$MOVIES_DIR" "$TV_SHOWS_DIR" "$DOWNLOAD_DIR" 2>/dev/null || true
-chown -R "$ENV_PUID:$ENV_PGID" dmc/services/ 2>/dev/null || true
+chown -R "$ENV_PUID:$ENV_PGID" media-services/services/ 2>/dev/null || true
 
 echo "✅ Permissions set"
 
 # Check if Traefik config needs updating
-TRAEFIK_CONFIG="_base/traefik/traefik.toml"
+TRAEFIK_CONFIG="infrastructure/traefik/traefik.toml"
 if grep -q "admin@domain.com" "$TRAEFIK_CONFIG"; then
     echo "⚠️  Warning: Please update the email address in $TRAEFIK_CONFIG"
     echo "   Change 'admin@domain.com' to your actual email address"
 fi
 
 # Check if Jellyfin config needs updating
-JELLYFIN_CONFIG="_base/traefik/jellyfin.yml"
-if grep -q "your_domain.ch" "$JELLYFIN_CONFIG" || grep -q "192.168.1.96" "$JELLYFIN_CONFIG"; then
+JELLYFIN_CONFIG="infrastructure/traefik/jellyfin.yml"
+if grep -q "example.com" "$JELLYFIN_CONFIG" || grep -q "YOUR_JELLYFIN_SERVER_IP" "$JELLYFIN_CONFIG"; then
     echo "⚠️  Warning: Please update the Jellyfin configuration in $JELLYFIN_CONFIG"
-    echo "   - Update the domain from 'your_domain.ch' to your domain"
-    echo "   - Update the server IP from '192.168.1.96' to your Jellyfin server IP"
+    echo "   - Update the example.com domain to your domain"
+    echo "   - Replace YOUR_JELLYFIN_SERVER_IP with your Jellyfin server IP"
 fi
 
 echo
@@ -85,18 +98,19 @@ echo "🎬 Ready to start services!"
 echo "=========================="
 echo
 echo "1. Start Traefik (reverse proxy):"
-echo "   cd _base/compose && docker-compose up -d"
+echo "   cd infrastructure/compose && docker compose up -d"
 echo
 echo "2. Start media services:"
-echo "   cd ../../dmc/compose && docker-compose up -d"
+echo "   cd ../../media-services/compose && docker compose up -d"
 echo
 echo "3. Access your services at:"
-echo "   - Traefik Dashboard: https://$DOMAIN/dashboard/"
 echo "   - Transmission: https://transmission.$DOMAIN"
 echo "   - Radarr: https://radarr.$DOMAIN"
 echo "   - Sonarr: https://sonarr.$DOMAIN"
 echo "   - Prowlarr: https://prowlarr.$DOMAIN"
 echo "   - Jellyseerr: https://jellyseerr.$DOMAIN"
+echo "   - Wizarr: https://wizarr.$DOMAIN"
+echo "   - Jellystat: https://stats.$DOMAIN"
 echo
 echo "📖 For detailed setup instructions, see README.md"
 echo
@@ -104,17 +118,17 @@ read -p "Start services now? (y/N): " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     echo "🚀 Starting Traefik..."
-    cd _base/compose
-    docker-compose up -d
+    cd infrastructure/compose
+    docker compose up -d
     
     echo "🚀 Starting media services..."
-    cd ../../dmc/compose
-    docker-compose up -d
+    cd ../../media-services/compose
+    docker compose up -d
     
     echo
     echo "✅ All services started!"
-    echo "📊 Check status with: docker-compose ps"
-    echo "📋 View logs with: docker-compose logs -f"
+    echo "📊 Check status with: docker compose ps"
+    echo "📋 View logs with: docker compose logs -f"
 else
     echo "Services not started. Run the commands manually when ready."
 fi

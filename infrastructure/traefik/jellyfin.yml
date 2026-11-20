@@ -2,19 +2,19 @@ http:
   routers:
     dmc-jellyfin:
       # rule: "Host(`${SUB_DOMAIN_JELLYFIN}.${DOMAIN}`)"
-      rule: "Host(`your_domain.ch`)"
+      rule: "Host(`example.com`)"
       entryPoints:
         - web
         - websecure
       service: dmc-jellyfin
       tls:
         certResolver: letsencrypt
-      # If you want to add basic auth, include the next line:
+      # To enable the Docker-provider Basic Auth middleware:
       # middlewares:
-      #   - dmc-auth
+      #   - dmc-auth@docker
 
   services:
     dmc-jellyfin:
       loadBalancer:
         servers:
-          - url: "http://192.168.1.96:8096"
+          - url: "http://YOUR_JELLYFIN_SERVER_IP:8096"

@@ -174,9 +174,6 @@ cython_debug/
 .pypirc
 
 # add data specific files
-dmc/services/jellyseerr/*
-dmc/services/prowlarr/*
-dmc/services/radarr/*
-dmc/services/sonarr/*
-dmc/services/transmission/*
-_base/traefik/acme.json
+media-services/services/*/
+infrastructure/traefik/acme.json
+infrastructure/traefik/.htpasswd
